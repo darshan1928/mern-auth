@@ -4,6 +4,7 @@ import bcryptjs from "bcryptjs"
 
 const signup= async(req,res,next)=>{
     const {username,password,email}=req.body
+    console.log('req.body==',req.body);
     const hashedPassword= await bcryptjs.hash(password,10)
 try {
     const userData= await User.create({
