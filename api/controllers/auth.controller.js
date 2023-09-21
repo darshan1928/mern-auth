@@ -2,7 +2,7 @@
 import User from "../models/user.model.js"
 import bcryptjs from "bcryptjs"
 
-const authController= async(req,res)=>{
+const signup= async(req,res,next)=>{
     const {username,password,email}=req.body
     const hashedPassword= await bcryptjs.hash(password,10)
 try {
@@ -14,11 +14,11 @@ try {
         data:userData
      })
 } catch (error) {
-    console.log(error);
+   next(error)
 }
 
 
    
 }
 
-export {authController}
+export {signup}

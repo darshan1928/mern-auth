@@ -1,5 +1,5 @@
 
-import User from "../models/user.model.js"
+
 
 const userDetail=async (req,res)=>{
 
