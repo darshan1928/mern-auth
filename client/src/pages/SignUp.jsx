@@ -1,30 +1,35 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios"
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 function SignUp() {
     const [formData, setFormData] = useState({});
-    const [error,setError]=useState(false)
-    const [loading,setLoading]=useState(false)
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
+
+    
     const handleChange = (e) => {
         setFormData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     };
 
-    const handleSubmit=async(e)=>{
-      e.preventDefault();
-      try {
-        setLoading(true)
-        setError(false)
-        const response = await axios.post("http://localhost:3000/api/auth/signUp",formData)
-        console.log("response==",response)
-        setLoading(false)
-        setError(false)
-      } catch (error) {
-        setLoading(false)
-        setError(true)
-        console.log("error==",error);
-      }}
- 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            setLoading(true);
+            setError(false);
+            const response = await axios.post("http://localhost:3000/api/auth/signUp", formData);
+            console.log("response==", response);
+            setLoading(false);
+            setError(false);
+            navigate("/signIn");
+        } catch (error) {
+            setLoading(false);
+            setError(true);
+            console.log("error==", error);
+        }
+    };
+
     return (
         <div className="p-3 max-w-lg mx-auto">
             <h1 className="font-semibold my-7 text-center text-3xl  ">Sign Up</h1>
@@ -51,11 +56,11 @@ function SignUp() {
                     className="bg-slate-100 p-3 rounded-lg"
                 />
                 <button
-                disabled={loading}
+                    disabled={loading}
                     type="submit"
                     className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
                 >
-                   {loading ? "Loading": "SignUp"} 
+                    {loading ? "Loading" : "SignUp"}
                 </button>
             </form>
             <div className="flex gap-2 mt-5 ">
@@ -70,4 +75,4 @@ function SignUp() {
     );
 }
 
-export default SignUp
+export default SignUp;

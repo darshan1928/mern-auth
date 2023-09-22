@@ -23,9 +23,9 @@ const signup = async (req, res, next) => {
 export { signup };
 
 export const signIn = async (req, res, next) => {
-    const { username, password } = req.body;
+    const {  password,email } = req.body;
     try {
-        const userData = await User.findOne({ username: username });
+        const userData = await User.findOne({ email:email });
 
         if (!userData) {
             res.json({
@@ -46,10 +46,10 @@ export const signIn = async (req, res, next) => {
             });
             return
         }
-        const token = jwt.sign({id:userData._id},process.env.JWT_SECRET,{expiresIn:"30m"})
+        const token =  jwt.sign({id:userData._id},process.env.JWT_SECRET)
         const {password:hashedPassword,...rest}=userData._doc
 
-            res.cookie('access_token',token,{httpOnly:true}).status(200).json({
+            res.cookie('access-token',token,{httpOnly:true,expires:new Date(Date.now()+25892000000)}).status(200).json({
                 status: true,
                 message: "successfully login",
                 errorcode: 0,
@@ -60,5 +60,5 @@ export const signIn = async (req, res, next) => {
 
     } catch (error) {
         next(error);
-    }
+    } 
 };
